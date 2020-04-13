@@ -1,0 +1,44 @@
+
+#spring.application.name = api-gateway
+#server.port = 8090
+#eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka/
+
+#zuul.routes.user-service.path=/users/**
+#zuul.routes.playlist-service.path=/playlists/**
+#zuul.routes.album-service.path=/albums/**, /songs/**
+
+spring:
+  application:
+    name: api-gateway
+
+server:
+  port: 8090
+
+
+zuul:
+  routes:
+    user-service:
+      path: /users/**
+      stripPrefix: false
+    playlist-service:
+      path: /playlists/**
+      stripPrefix: false
+    album-service:
+      path: /albums/**
+      stripPrefix: false
+
+  sensitiveHeaders: Cookie,Set-Cookie
+  add-proxy-headers: true
+eureka:
+  serviceUrl:
+    defaultZone: http://localhost:8761/eureka/
+
+security:
+  oauth2:
+    client:
+      client-id: auth_id
+      client-secret: auth_secret
+    resource:
+      jwt:
+        key-value: jwt_secret_key
+
