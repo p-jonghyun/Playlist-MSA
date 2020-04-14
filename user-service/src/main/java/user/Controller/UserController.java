@@ -1,35 +1,46 @@
 package user.Controller;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import user.Entity.User;
-import user.Repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import user.Common.Paging.PageDto;
+import user.Common.Paging.PageRequest;
+import user.Common.Result.Result;
+import user.Common.Result.ResultService;
+import user.DTO.UserDto;
+import user.Service.UserSearchService;
+import user.Service.UserService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor
 public class UserController {
 
-    private UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final UserSearchService userSearchService;
+    private final ResultService resultService;
 
-    @PostMapping("/login")
-    public User join() {
+    @GetMapping("")
+    @ResponseStatus(value = HttpStatus.OK)
+    public UserDto.PageUserRes getUsers(PageRequest pageable) {
+        Page<UserDto.UserRes> userpages = userSearchService.pageUsers(pageable.of("createdAt")).map(UserDto.UserRes::new);
 
+        PageDto pages = new PageDto(userpages, "user");
+        return new UserDto.PageUserRes(pages, userpages.getContent());
+    }
 
-        User newUser = User.builder()
-                .password(passwordEncoder.encode("0000"))
-                .email("jongjong1994@gmail.com")
-                .name("jonghyun")
-                .phoneNumber("010-7148-4933")
-                .userType(0)
-                .build();
+    @PostMapping("/signup")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public Result register(@RequestBody @Valid UserDto.SignupReq dto) {
+        return resultService.getSuccessResult(new UserDto.SignupRes(userService.createUser(dto)));
+    }
 
-        return userRepository.save(newUser);
+    @GetMapping("/{userId}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public Result getUser(@PathVariable Long userId) {
+        return resultService.getSuccessResult(new UserDto.UserRes(userService.getUser(userId)));
     }
 }

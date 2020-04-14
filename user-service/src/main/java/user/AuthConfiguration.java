@@ -56,7 +56,6 @@ public class AuthConfiguration extends AuthorizationServerConfigurerAdapter {
         // JWT key-value 방식을 사용하기 위한 설정입니다.
         JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
         accessTokenConverter.setSigningKey(resourceServerProperties.getJwt().getKeyValue());
-
         return accessTokenConverter;
     }
 

@@ -1,0 +1,11 @@
+userNotFound:
+  msg: "존재 하지 않는 유저입니다"
+userAlreadyExist:
+  msg: "이미 존재 하는 유저입니다"
+invalidRole:
+  msg: "올바르지 않은 권한입니다"
+invalidPassword:
+  msg: "비밀번호를 확인하세요"
+invalidRequestBody:
+  msg: "입력값들을 확인하세요"
+
