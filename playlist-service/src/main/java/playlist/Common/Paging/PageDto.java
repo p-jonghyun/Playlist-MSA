@@ -1,9 +1,8 @@
-package user.Common.Paging;
+package playlist.Common.Paging;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
-import user.DTO.UserDto;
 
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -39,3 +38,4 @@ public class PageDto {
 
     }
 }
+

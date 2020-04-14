@@ -12,6 +12,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                //antMatchers("/songs/**").permitAll()
                 .antMatchers("/users/signup").permitAll()
                 .antMatchers("/users/**", "/playlists/**", "/albums/**").authenticated();
 

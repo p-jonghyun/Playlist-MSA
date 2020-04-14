@@ -23,9 +23,17 @@ zuul:
     playlist-service:
       path: /playlists/**
       stripPrefix: false
-    album-service:
-      path: /albums/**
+    song:
+      path: /songs/**0-
+      serviceId: album-service
       stripPrefix: false
+    album:
+      path: /albums/**
+      serviceId: album-service
+      stripPrefix: false
+    #album-service:
+    #  path: /albums/**
+    #  stripPrefix: false
 
   sensitiveHeaders: Cookie,Set-Cookie
   add-proxy-headers: true

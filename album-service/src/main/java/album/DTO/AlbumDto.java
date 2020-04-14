@@ -111,6 +111,7 @@ public class AlbumDto {
             this.albums = albums;
         }
     }
+
     @Data
     @AllArgsConstructor
     public static class AlbumsRes<T> {

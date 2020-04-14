@@ -13,6 +13,7 @@ import user.Service.UserSearchService;
 import user.Service.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/users")
@@ -38,9 +39,12 @@ public class UserController {
         return resultService.getSuccessResult(new UserDto.SignupRes(userService.createUser(dto)));
     }
 
+
+
     @GetMapping("/{userId}")
     @ResponseStatus(value = HttpStatus.OK)
-    public Result getUser(@PathVariable Long userId) {
+    public Result getUser( @PathVariable Long userId) {
         return resultService.getSuccessResult(new UserDto.UserRes(userService.getUser(userId)));
     }
+
 }

@@ -50,6 +50,11 @@ public class ExceptionAdvice {
         return resultService.getFailResult(getMessage("illegalArgument.msg"));
     }
 
+    @ExceptionHandler(SongNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected Result songNotFound(HttpServletRequest request, SongNotFoundException e) {
+        return resultService.getFailResult(getMessage("songNotFound.msg"));
+    }
     private String getMessage(String code) {
         return messageSource.getMessage(code, null, LocaleContextHolder.getLocale());
     }

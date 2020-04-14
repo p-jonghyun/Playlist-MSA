@@ -1,6 +1,7 @@
 package user;
 
 
+import com.sun.tools.javac.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +16,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import user.Security.CustomTokenEnhancer;
 
 import javax.sql.DataSource;
 
@@ -29,13 +34,24 @@ public class AuthConfiguration extends AuthorizationServerConfigurerAdapter {
     private AuthenticationManager authenticationManager;
     private ResourceServerProperties resourceServerProperties;
 
+    @Bean
+    public TokenStore tokenStore() {
+        return new JwtTokenStore(jwtAccessTokenConverter());
+    }
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints)
             throws Exception {
+
         // 인증 과정 endpoint에 대한 설정을 해줍니다.
-        super.configure(endpoints);
-        endpoints.accessTokenConverter(jwtAccessTokenConverter())
-                .authenticationManager(authenticationManager);
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(List.of(new CustomTokenEnhancer(), jwtAccessTokenConverter()));
+
+        endpoints.authenticationManager(authenticationManager)
+                .tokenEnhancer(tokenEnhancerChain)
+                .accessTokenConverter(jwtAccessTokenConverter())
+                .tokenStore(tokenStore());
+
     }
 
     @Override
@@ -43,6 +59,7 @@ public class AuthConfiguration extends AuthorizationServerConfigurerAdapter {
         // oauth_client_details 테이블에 등록된 사용자로 조회합니다.
         clients.withClientDetails(clientDetailsService);
     }
+
 
     @Bean
     @Primary
