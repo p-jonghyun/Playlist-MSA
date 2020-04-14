@@ -25,11 +25,11 @@ public class UserController {
 
     @GetMapping("")
     @ResponseStatus(value = HttpStatus.OK)
-    public UserDto.PageUserRes getUsers(PageRequest pageable) {
+    public Result getUsers(PageRequest pageable) {
         Page<UserDto.UserRes> userpages = userSearchService.pageUsers(pageable.of("createdAt")).map(UserDto.UserRes::new);
 
         PageDto pages = new PageDto(userpages, "user");
-        return new UserDto.PageUserRes(pages, userpages.getContent());
+        return resultService.getSuccessResult(new UserDto.PageUserRes(pages, userpages.getContent()));
     }
 
     @PostMapping("/signup")
