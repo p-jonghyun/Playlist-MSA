@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 //import playlist.Config.UserInfo;
-import playlist.Config.UserInfo;
 import playlist.DTO.PlaylistDto;
 import playlist.Entity.Playlist;
 import playlist.Entity.PlaylistSong;
@@ -19,18 +18,18 @@ public class PlaylistService {
     private final PlaylistRepository playlistRepository;
 
 
-    public List<Playlist> getAll(UserInfo userInfo) {
-        return playlistRepository.findByUserId(userInfo.getId());
+    public List<Playlist> getAll(Long userId) {
+        return playlistRepository.findByUserId(userId);
     }
 
     @Transactional
-    public Playlist create(UserInfo userInfo, PlaylistDto.CreateReq dto) {
+    public Playlist create(Long userId, PlaylistDto.CreateReq dto) {
 
-        return playlistRepository.save(dto.toEntity(userInfo.getId()));
+        return playlistRepository.save(dto.toEntity(userId));
     }
 
     @Transactional
-    public Playlist addtoPlaylist(PlaylistDto.addDto dto, UserInfo userInfo, Long playlist_id) {
+    public Playlist addtoPlaylist(PlaylistDto.addDto dto, Long userId, Long playlist_id) {
 
         Playlist playlist = playlistRepository.getOne(playlist_id);
 
@@ -38,7 +37,7 @@ public class PlaylistService {
         if (playlist == null) throw new RuntimeException();
 
         // 요기는 주인 확
-        if (playlist.getUserId() != userInfo.getId()) throw new RuntimeException();
+        if (playlist.getUserId() != userId) throw new RuntimeException();
 
         List<Long> songIds = dto.getSongIds();
 

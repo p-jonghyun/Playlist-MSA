@@ -24,7 +24,7 @@ zuul:
       path: /playlists/**
       stripPrefix: false
     song:
-      path: /songs/**0-
+      path: /songs/**
       serviceId: album-service
       stripPrefix: false
     album:
