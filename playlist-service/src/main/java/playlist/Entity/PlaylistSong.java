@@ -2,6 +2,7 @@ package playlist.Entity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -14,7 +15,15 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@Table(
+        uniqueConstraints={
+                @UniqueConstraint(
+                        columnNames={"playlist_id","song_id"}
+                )
+        }
+)
 public class PlaylistSong {
 
     @Id @GeneratedValue
@@ -24,6 +33,7 @@ public class PlaylistSong {
     @JoinColumn(name = "playlist_id")
     private Playlist playlist;
 
+    @Column(name = "song_id")
     private Long songId;
 
     @CreatedDate

@@ -12,3 +12,11 @@ illegalArgument:
   msg: "파라미터값을 확인하세요"
 authorization:
   msg: "Unauthorized"
+songNotFound:
+  msg: "존재하지 않는 노래입니다"
+playlistNotFound:
+  msg: "존재하지 않는 플레이리스트입니다."
+playlistTitleduplication:
+  msg: "이미 존재하는 플레이리스트 이름입니다."
+playListSongDuplicate:
+  msg: "이미 플레이리스트에있는 노래입니다."

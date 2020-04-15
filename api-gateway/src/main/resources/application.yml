@@ -37,6 +37,9 @@ zuul:
 
   sensitiveHeaders: Cookie,Set-Cookie
   add-proxy-headers: true
+  host:
+    connect-timeout-millis: 3000
+    socket-timeout-millis: 3000
 eureka:
   serviceUrl:
     defaultZone: http://localhost:8761/eureka/
@@ -49,4 +52,5 @@ security:
     resource:
       jwt:
         key-value: jwt_secret_key
+
 

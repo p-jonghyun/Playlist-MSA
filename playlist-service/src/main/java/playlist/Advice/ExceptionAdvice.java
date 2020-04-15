@@ -2,6 +2,7 @@ package playlist.Advice;
 
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import playlist.Common.Result.Result;
 import playlist.Common.Result.ResultService;
-import playlist.Exception.AuthorizationExeption;
+import playlist.Exception.PlayListTitleDuplicateException;
+import playlist.Exception.PlaylistMatchException;
+import playlist.Exception.PlaylistNotFoundException;
+import playlist.Exception.SongNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -45,17 +49,42 @@ public class ExceptionAdvice {
         return resultService.getFailResult(getMessage("invalidRequestBody.msg"));
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    protected Result invalidPasswordException(HttpServletRequest request, IllegalArgumentException e) {
+//        return resultService.getFailResult(getMessage("illegalArgument.msg"));
+//    }
+
+    @ExceptionHandler(SongNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected Result invalidPasswordException(HttpServletRequest request, IllegalArgumentException e) {
-        return resultService.getFailResult(getMessage("illegalArgument.msg"));
+    protected Result songNotFound(HttpServletRequest request, SongNotFoundException e) {
+        return resultService.getFailResult(getMessage("songNotFound.msg"));
     }
 
-    @ExceptionHandler(AuthorizationExeption.class)
+
+    @ExceptionHandler(PlaylistNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected Result songNotFound(HttpServletRequest request, AuthorizationExeption e) {
-        return resultService.getFailResult(getMessage("authorization.msg"));
+    protected Result playlistNotFound(HttpServletRequest request, PlaylistNotFoundException e) {
+        return resultService.getFailResult(getMessage("playlistNotFound.msg"));
     }
+
+    @ExceptionHandler(PlaylistMatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected Result playlistnotMatch(HttpServletRequest request, PlaylistMatchException e) {
+        return resultService.getFailResult(getMessage("playlistNotFound.msg"));
+    }
+    @ExceptionHandler(PlayListTitleDuplicateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected Result playlistTitleDuplicate(HttpServletRequest request, PlayListTitleDuplicateException e) {
+        return resultService.getFailResult(getMessage("playlistTitleduplication.msg"));
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected Result playlistTitleDuplicate(HttpServletRequest request, ConstraintViolationException e) {
+        return resultService.getFailResult(getMessage("playListSongDuplicate.msg"));
+    }
+
     private String getMessage(String code) {
         return messageSource.getMessage(code, null, LocaleContextHolder.getLocale());
     }
