@@ -73,7 +73,7 @@ public class PlaylistController {
         authorizationHeader = authorizationHeader.replace("Bearer ", "");
 
         Claims claims = Jwts.parser()
-                .setSigningKey("jwt_secret_key".getBytes()) //todo just example
+                .setSigningKey("jwt_secret_key".getBytes())
                 .parseClaimsJws(authorizationHeader).getBody();
 
         Integer id = (Integer) claims.get("user_id");

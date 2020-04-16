@@ -3,6 +3,8 @@ package user.Controller;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 import user.Common.Paging.PageDto;
 import user.Common.Paging.PageRequest;
@@ -18,6 +20,7 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class UserController {
 
     private final UserService userService;

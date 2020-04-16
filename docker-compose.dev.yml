@@ -1,0 +1,28 @@
+version: '2.1'
+services:
+
+  config:
+    build: config
+    ports:
+      - 8888:8888
+
+  registry:
+    build: eureka-server
+
+  gateway:
+    build: api-gateway
+
+  auth-service:
+    build: user-service
+    ports:
+      - 8095:8095
+
+  playlist-service:
+    build: playlist-service
+    ports:
+      - 8020:8020
+
+  album-service:
+    build: album-service
+    ports:
+      - 8030:8030

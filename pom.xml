@@ -9,7 +9,8 @@
 		<module>playlist-service</module>
         <module>api-gateway</module>
 		<module>user-service</module>
-	</modules>
+        <module>config</module>
+    </modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
