@@ -20,20 +20,21 @@ zuul:
     user-service:
       path: /users/**
       stripPrefix: false
+    notification-service:
+      path: /notifications/**
+      stripPrefix: false
     playlist-service:
       path: /playlists/**
       stripPrefix: false
     song:
       path: /songs/**
-      serviceId: album-service
+      serviceId: playlist-service
       stripPrefix: false
     album:
       path: /albums/**
-      serviceId: album-service
+      serviceId: playlist-service
       stripPrefix: false
-    #album-service:
-    #  path: /albums/**
-    #  stripPrefix: false
+
 
   sensitiveHeaders: Cookie,Set-Cookie
   add-proxy-headers: true

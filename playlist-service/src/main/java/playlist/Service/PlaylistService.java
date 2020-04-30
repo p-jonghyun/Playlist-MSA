@@ -6,15 +6,16 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 //import playlist.Config.UserInfo;
-import playlist.Clients.SongFeignClient;
 import playlist.DTO.PlaylistDto;
 import playlist.Entity.Playlist;
 import playlist.Entity.PlaylistSong;
+import playlist.Entity.Song;
 import playlist.Exception.PlayListTitleDuplicateException;
 import playlist.Exception.PlaylistMatchException;
 import playlist.Exception.PlaylistNotFoundException;
 import playlist.Exception.SongNotFoundException;
 import playlist.Repository.PlaylistRepository;
+import playlist.Repository.SongRepository;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ import java.util.List;
 public class PlaylistService {
 
     private final PlaylistRepository playlistRepository;
-    private final SongFeignClient feignClient;
+    private final SongRepository songRepository;
 
     public List<Playlist> getAll(Long userId) {
         return playlistRepository.findByUserId(userId);
@@ -53,14 +54,10 @@ public class PlaylistService {
 
         List<Long> songIds = dto.getSongIds();
 
-        try {
-            for(Long id : songIds) {
-                feignClient.getSong(id);
-                PlaylistSong playlistSong = dto.toEntity(playlist, id);
-                playlist.addPlaylistSong(playlistSong);
-            }
-        } catch(Exception e) {
-            throw new SongNotFoundException();
+        for (Long id : songIds) {
+            Song song = songRepository.findById(id).orElseThrow(SongNotFoundException::new);
+            PlaylistSong playlistSong = dto.toEntity(playlist, song);
+            playlist.addPlaylistSong(playlistSong);
         }
 
         return playlist;

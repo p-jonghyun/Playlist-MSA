@@ -5,13 +5,13 @@ import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import playlist.Clients.SongFeignClient;
 import playlist.Common.Result.Result;
 import playlist.Common.Result.ResultService;
 
 import playlist.DTO.PlaylistDto;
 import playlist.Entity.Playlist;
 import playlist.Entity.PlaylistSong;
+import playlist.Entity.Song;
 import playlist.Service.PlaylistService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +26,6 @@ public class PlaylistController {
 
     private final PlaylistService playlistService;
     private final ResultService resultService;
-    private SongFeignClient songFeignClient;
 
     @PostMapping("")
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -47,9 +46,7 @@ public class PlaylistController {
             List<PlaylistDto.SongRes> songs = new ArrayList<>();
 
             for(PlaylistSong playlistSong : playlist.getPlaylistSongs()) {
-                Long id = playlistSong.getSongId();
-                PlaylistDto.FeignSongRes response = songFeignClient.getSong(id);
-                songs.add(response.getData());
+                songs.add(new PlaylistDto.SongRes(playlistSong.getSong()));
             }
 
             playlistDto.add(new PlaylistDto.Res(playlist, songs));

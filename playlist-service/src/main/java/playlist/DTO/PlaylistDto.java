@@ -1,13 +1,16 @@
 package playlist.DTO;
 
+import com.sun.tools.javah.Gen;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
-import playlist.Clients.SongFeignClient;
+import playlist.Entity.Genre;
 import playlist.Entity.Playlist;
 import playlist.Entity.PlaylistSong;
+import playlist.Entity.Song;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,22 +75,13 @@ public class PlaylistDto {
             this.songIds = songIds;
         }
 
-        public PlaylistSong toEntity(Playlist playlist, Long id) {
+        public PlaylistSong toEntity(Playlist playlist, Song song) {
             return PlaylistSong.builder()
                     .playlist(playlist)
-                    .songId(id)
+                    .song(song)
                     .build();
         }
 
-    }
-
-    @Data
-    @AllArgsConstructor
-    public static class FeignSongRes {
-        private SongRes data;
-        private boolean success;
-        private String msg;
-        private List<String> errors;
     }
 
     @NoArgsConstructor
@@ -98,7 +92,15 @@ public class PlaylistDto {
         private String title;
         private Integer track;
         private Integer length;
+        private List<Genre> genres = new ArrayList<>();
 
+        public SongRes(Song song) {
+            this.id = song.getId();
+            this.title = song.getTitle();
+            this.track = song.getTrack();
+            this.length = song.getLength();
+            this.genres = song.getGenres();
+        }
     }
 
     @Data

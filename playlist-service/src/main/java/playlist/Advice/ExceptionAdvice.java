@@ -1,6 +1,7 @@
 package playlist.Advice;
 
 
+import com.netflix.ribbon.proxy.annotation.Http;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.context.MessageSource;
@@ -14,10 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import playlist.Common.Result.Result;
 import playlist.Common.Result.ResultService;
-import playlist.Exception.PlayListTitleDuplicateException;
-import playlist.Exception.PlaylistMatchException;
-import playlist.Exception.PlaylistNotFoundException;
-import playlist.Exception.SongNotFoundException;
+import playlist.Exception.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -83,6 +81,12 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected Result playlistTitleDuplicate(HttpServletRequest request, ConstraintViolationException e) {
         return resultService.getFailResult(getMessage("playListSongDuplicate.msg"));
+    }
+
+    @ExceptionHandler(IllegalLocalException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected Result illegalLocalException(HttpServletRequest request, ConstraintViolationException e) {
+        return resultService.getFailResult(getMessage("illegalLocalException.msg"));
     }
 
     private String getMessage(String code) {

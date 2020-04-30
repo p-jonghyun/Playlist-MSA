@@ -20,3 +20,5 @@ playlistTitleduplication:
   msg: "이미 존재하는 플레이리스트 이름입니다."
 playListSongDuplicate:
   msg: "이미 플레이리스트에있는 노래입니다."
+illegalLocalException:
+  msg: "허용되지 않은 국가입니다."

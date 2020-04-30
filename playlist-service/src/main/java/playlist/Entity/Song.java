@@ -3,7 +3,6 @@ package playlist.Entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -17,25 +16,20 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(
-        uniqueConstraints={
-                @UniqueConstraint(
-                        columnNames={"playlist_id","song_id"}
-                )
-        }
-)
-public class PlaylistSong {
+public class Song {
 
     @Id @GeneratedValue
     private Long id;
+    private String title;
+    private Integer track;
+    private Integer length;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    List<Genre> genres = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "playlist_id")
-    private Playlist playlist;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "song_id")
-    private Song song;
+    @JoinColumn(name="album_id")
+    private Album album;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -45,9 +39,16 @@ public class PlaylistSong {
     @Column(name = "update_at")
     private LocalDateTime updatedAt;
 
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
     @Builder
-    public PlaylistSong(Playlist playlist, Song song) {
-        this.song = song;
-        this.playlist = playlist;
+    public Song(String title, Integer track, Integer length, Album album, List<Genre> genres) {
+        this.title = title;
+        this.track = track;
+        this.length = length;
+        this.album = album;
+        this.genres = genres;
     }
 }

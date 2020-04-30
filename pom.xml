@@ -5,11 +5,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>eureka-server</module>
-		<module>album-service</module>
 		<module>playlist-service</module>
         <module>api-gateway</module>
 		<module>user-service</module>
         <module>config</module>
+        <module>notification-service</module>
     </modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
