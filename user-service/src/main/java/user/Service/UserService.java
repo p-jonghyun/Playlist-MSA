@@ -61,7 +61,7 @@ public class UserService {
             List<Locale> locales = new ArrayList<>();
             locales.add(Locale.valueOf(dto.getCriteria()));
 
-            List<User> users = userRepository.findByGenresInAndSongCreatedNotification(locales, true);
+            List<User> users = userRepository.findByLocalesInAndAlbumCreatedNotification(locales, true);
             UserDto.RabbitUsers data = new UserDto.RabbitUsers(users, dto.getTitle(), dto.getMsg(), dto.getCriteria());
             String json = objectMapper.writeValueAsString(data);
 
