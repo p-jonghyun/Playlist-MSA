@@ -2,13 +2,14 @@ package playlist.Service;
 
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import playlist.Entity.Song;
 import playlist.Exception.SongNotFoundException;
 import playlist.Repository.SongRepository;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SongService {
 
     private SongRepository songRepository;

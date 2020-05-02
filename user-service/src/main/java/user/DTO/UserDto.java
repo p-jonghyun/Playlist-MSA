@@ -1,18 +1,20 @@
 package user.DTO;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import user.Common.Paging.PageDto;
 import user.Entity.Address;
+import user.Entity.Genre;
+import user.Entity.Locale;
 import user.Entity.User;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.FetchType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -22,32 +24,36 @@ public class UserDto {
     @Getter
     @NoArgsConstructor
     public static class SignupReq {
+
         @NotNull
         private String email;
-
         @NotNull
         private String name;
-
         @NotNull
         private String password;
-
         @NotNull
         private String phoneNumber;
-
         @NotNull
         private int userType;
-
         @NotNull
         private String address1;
-
         @NotNull
         private String address2;
-
         @NotNull
         private String zip;
+        @NotNull
+        private List<Genre> genres;
+        @NotNull
+        private List<Locale> locales;
+        @NotNull
+        private boolean songCreatedNotification;
+        @NotNull
+        private boolean albumCreatedNotification;
 
         @Builder
-        public SignupReq(String email,String name,String password,String phoneNumber, int userType, String address1,  String address2, String zip) {
+        public SignupReq(String email,String name,String password,String phoneNumber, int userType,
+                         String address1,  String address2, String zip, List<Genre> genres, List<Locale> locales,
+                         boolean songCreatedNotification, boolean albumCreatedNotification) {
             this.email = email;
             this.name = name;
             this.password = password;
@@ -56,6 +62,10 @@ public class UserDto {
             this.address1 = address1;
             this.address2 = address2;
             this.zip = zip;
+            this.genres = genres;
+            this.locales = locales;
+            this.songCreatedNotification = songCreatedNotification;
+            this.albumCreatedNotification = albumCreatedNotification;
         }
 
         public User toEntity(String password) {
@@ -73,6 +83,10 @@ public class UserDto {
                     .phoneNumber(this.phoneNumber)
                     .address(address)
                     .userType(userType)
+                    .genres(genres)
+                    .locales(locales)
+                    .songCreatedNotification(songCreatedNotification)
+                    .albumCreatedNotification(albumCreatedNotification)
                     .build();
         }
 
@@ -118,6 +132,11 @@ public class UserDto {
         Collection<? extends GrantedAuthority> authorities;
         private Address address;
 
+        private List<Genre> genres;
+        private List<Locale> locales;
+        private boolean songCreatedNotification;
+        private boolean albumCreatedNotification;
+
         public UserRes(User user) {
             this.id = user.getId();
             this.email = user.getEmail();
@@ -127,6 +146,10 @@ public class UserDto {
             this.updatedAt = user.getUpdatedAt();
             this.authorities = user.getAuthorities();
             this.address = user.getAddress();
+            this.genres = user.getGenres();
+            this.locales = user.getLocales();
+            this.songCreatedNotification = user.isSongCreatedNotification();
+            this.albumCreatedNotification = user.isAlbumCreatedNotification();
         }
 
     }
@@ -140,5 +163,28 @@ public class UserDto {
             this.pages = pages;
             this.users = users;
         }
+    }
+
+    @Getter
+    public static class RabbitUsers {
+        private List<Long> users = new ArrayList<>();
+        private String title;
+        private String msg;
+        private String criteria;
+
+        public RabbitUsers(List<User> users, String title, String msg, String criteria) {
+            for(User user: users) this.users.add(user.getId());
+            this.title = title;
+            this.msg = msg;
+            this.criteria = criteria;
+        }
+    }
+
+    @Data
+    public static class RabbitData {
+        private String title;
+        private String msg;
+        private String criteria;
+
     }
 }

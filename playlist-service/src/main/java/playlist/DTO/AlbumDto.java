@@ -125,4 +125,19 @@ public class AlbumDto {
     public static class AlbumsRes<T> {
         private T albums;
     }
+
+    @Data
+    public static class RabbitSenderData {
+        private String title;
+        private String msg;
+        private String criteria;
+
+
+        public RabbitSenderData(String title, String msg, String criteria) {
+            this.title = title;
+            this.msg = msg;
+            this.criteria = criteria;
+
+        }
+    }
 }

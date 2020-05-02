@@ -47,6 +47,15 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<GrantedAuthority> authorities = new ArrayList<>();
 
+    @ElementCollection
+    private List<Genre> genres = new ArrayList<>();
+
+    @ElementCollection
+    private List<Locale> locales = new ArrayList<>();
+
+    private boolean songCreatedNotification = false;
+    private boolean albumCreatedNotification = false;
+
     @Override
     public String toString() {
         return "User{" +
@@ -101,7 +110,9 @@ public class User implements UserDetails {
     }
 
     @Builder
-    public User(String email, String name, String password, String phoneNumber, Address address, int userType, String provider) {
+    public User(String email, String name, String password, String phoneNumber, Address address, int userType, String provider,
+                List<Genre> genres, List<Locale> locales,
+                boolean songCreatedNotification, boolean albumCreatedNotification) {
         this.email = email;
         this.name = name;
         this.password = password;
@@ -117,6 +128,10 @@ public class User implements UserDetails {
                 break;
         }
         this.authorities = authorities;
+        this.genres = genres;
+        this.locales = locales;
+        this.songCreatedNotification = songCreatedNotification;
+        this.albumCreatedNotification = albumCreatedNotification;
     }
 
 }

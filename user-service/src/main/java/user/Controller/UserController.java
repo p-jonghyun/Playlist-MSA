@@ -11,11 +11,18 @@ import user.Common.Paging.PageRequest;
 import user.Common.Result.Result;
 import user.Common.Result.ResultService;
 import user.DTO.UserDto;
+import user.Entity.Genre;
+import user.Entity.User;
+import user.Repository.UserRepository;
 import user.Service.UserSearchService;
 import user.Service.UserService;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+
+import static user.Entity.Genre.hiphop;
 
 @RestController
 @RequestMapping("/users")
@@ -26,6 +33,7 @@ public class UserController {
     private final UserService userService;
     private final UserSearchService userSearchService;
     private final ResultService resultService;
+    private final UserRepository userRepository;
 
     @GetMapping("")
     @ResponseStatus(value = HttpStatus.OK)
@@ -42,12 +50,11 @@ public class UserController {
         return resultService.getSuccessResult(new UserDto.SignupRes(userService.createUser(dto)));
     }
 
-
-
     @GetMapping("/{userId}")
     @ResponseStatus(value = HttpStatus.OK)
     public Result getUser( @PathVariable Long userId) {
         return resultService.getSuccessResult(new UserDto.UserRes(userService.getUser(userId)));
     }
+
 
 }

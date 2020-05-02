@@ -38,8 +38,7 @@ public class NotificationDTO {
     @Getter
     @NoArgsConstructor
     public static class NotificationDetail {
-        @Id
-        @GeneratedValue
+
         private Long id;
         private Long userId;
 
@@ -51,6 +50,7 @@ public class NotificationDTO {
         private LocalDateTime createdAt;
 
         public NotificationDetail(Notification notification) {
+            this.id = notification.getId();
             this.userId = notification.getUserId();
             this.title = notification.getTitle();
             this.message = notification.getMessage();

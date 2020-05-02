@@ -109,4 +109,8 @@ public class PlaylistDto {
         private T playlists;
     }
 
+    @Data
+    public static class RabbitUsers {
+        private List<Long> users;
+    }
 }

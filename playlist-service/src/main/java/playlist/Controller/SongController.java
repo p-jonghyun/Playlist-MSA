@@ -1,7 +1,5 @@
 package playlist.Controller;
 
-
-
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,5 +23,6 @@ public class SongController {
     public Result getSong(@PathVariable Long songId) {
         return resultService.getSuccessResult(new AlbumDto.SongRes(songService.findSong(songId)));
     }
+
 
 }

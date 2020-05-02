@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import playlist.Entity.Album;
 import playlist.Entity.Locale;
 import playlist.Entity.QAlbum;
@@ -15,6 +16,7 @@ import playlist.Exception.IllegalLocalException;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class AlbumSearchService extends QuerydslRepositorySupport {
 
     public AlbumSearchService() {

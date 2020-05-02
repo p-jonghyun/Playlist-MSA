@@ -2,6 +2,7 @@ package playlist.Service;
 
 import feign.FeignException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,8 @@ import playlist.Repository.SongRepository;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Transactional
 public class PlaylistService {
 
     private final PlaylistRepository playlistRepository;
@@ -30,7 +32,6 @@ public class PlaylistService {
         return playlistRepository.findByUserId(userId);
     }
 
-    @Transactional
     public Playlist create(Long userId, PlaylistDto.CreateReq dto) {
 
         List<Playlist> playlists = getAll(userId);
@@ -41,7 +42,6 @@ public class PlaylistService {
         return playlistRepository.save(dto.toEntity(userId));
     }
 
-    @Transactional
     public Playlist addtoPlaylist(PlaylistDto.addDto dto, Long userId, Long playlist_id) {
 
         Playlist playlist = playlistRepository.getOne(playlist_id);

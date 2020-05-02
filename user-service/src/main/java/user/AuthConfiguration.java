@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -23,6 +24,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import user.Security.CustomTokenEnhancer;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+//import java.util.List;
 
 @AllArgsConstructor
 @Configuration
@@ -45,6 +48,11 @@ public class AuthConfiguration extends AuthorizationServerConfigurerAdapter {
 
         // 인증 과정 endpoint에 대한 설정을 해줍니다.
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+//        List<TokenEnhancer> hi = new ArrayList<TokenEnhancer>();
+//        hi.add(new CustomTokenEnhancer());
+//        hi.add(jwtAccessTokenConverter());
+//
+//        tokenEnhancerChain.setTokenEnhancers(hi);
         tokenEnhancerChain.setTokenEnhancers(List.of(new CustomTokenEnhancer(), jwtAccessTokenConverter()));
 
         endpoints.authenticationManager(authenticationManager)
