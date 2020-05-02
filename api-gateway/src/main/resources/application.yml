@@ -23,8 +23,9 @@ zuul:
     notification-service:
       path: /notifications/**
       stripPrefix: false
-    playlist-service:
+    playlist:
       path: /playlists/**
+      serviceId: playlist-service
       stripPrefix: false
     song:
       path: /songs/**

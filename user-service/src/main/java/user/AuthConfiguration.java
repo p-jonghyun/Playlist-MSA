@@ -30,7 +30,6 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @Configuration
 @EnableAuthorizationServer
-@SpringBootApplication
 public class AuthConfiguration extends AuthorizationServerConfigurerAdapter {
 
     private ClientDetailsService clientDetailsService;

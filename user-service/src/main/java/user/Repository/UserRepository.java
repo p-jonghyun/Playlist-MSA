@@ -14,7 +14,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
-
     List<User> findByGenresInAndSongCreatedNotification(List<Genre> genres, boolean flag);
     List<User> findByLocalesInAndAlbumCreatedNotification(List<Locale> locales, boolean flag);
 }
