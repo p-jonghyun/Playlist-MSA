@@ -1,4 +1,3 @@
-# MSA PORTFOLIO
 
 # Playlist API
 
@@ -28,11 +27,32 @@ Spring Boot, Spring Cloud와 Docker를 이용하여 개발된 Microservices 입�
 
     ![img/_2020-05-02__10.46.10.png](img/_2020-05-02__10.46.10.png)
 
-[User service](https://www.notion.so/d9b6de0a7fa44c63b8562b23d776a4bc)
+#### User service
+Method	| Path	| Description	| User authenticated	| PAGING
+------------- | ------------------------- | ------------- |:-------------:|:----------------:|
+POST	| /users/signup	| 회원가입	| x | x 	
+GET	| /users/{user_id}	| 회원 상세 정보 조회	| o | ×
+GET	| /users	| 회원들 정보	| o | 	×
 
-[Playlist Service](https://www.notion.so/f4373355440f4c4a836970e55b953ac5)
 
-[Notification Service](https://www.notion.so/13c13d6b70d74cb584b5edb69cdc1239)
+#### Playlist service
+Method	| Path	| Description	| User authenticated	| PAGING
+------------- | ------------------------- | ------------- |:-------------:|:----------------:|
+POST	| /playlists	| 유저 플레이리스트 추가	| o | x 	
+GET	| /playlists	| 유저의 플레이리스트들 조회	| o | x 
+POST	| /playlists{playlist_id}	| 노래들을 플레이스트에 추가	| o | 	×
+POST	| /albums	| 앨범 추가	| o | 	×
+GET	| /albums?locale={locale}	| 앨범 조회(페이징)	| o | 	o
+GET	| /albums/search?title={title}&locale={title}	| 앨범 검색	| o | 	×
+GET	| /songs/{songId}	| 노래 상세 조회	| o | 	×
+
+
+#### Notification service
+Method	| Path	| Description	| User authenticated	| PAGING
+------------- | ------------------------- | ------------- |:-------------:|:----------------:|
+GET	| /notifications	| 새로운 알람 조회	| o | x 	
+DELETE	| /notifications	| 알람삭제	| o | ×
+GET	| /notifications/old	| 오래된 알람 조회	| o | 	×
 
 ## Infrastructure
 
