@@ -9,7 +9,6 @@ Spring Boot, Spring Cloud와 Docker를 이용하여 개발된 Microservices 입�
 - Spring Boot & Cloud
 - Netflix OSS
 - RabbitMQ
-- Docker & Docker Compose
 - Maven
 - Spring JPA
 - Lombok
